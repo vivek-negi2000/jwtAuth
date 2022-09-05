@@ -1,4 +1,6 @@
-﻿using JwtTokenAuth.Models;
+﻿using JwtTokenAuth.Data;
+using JwtTokenAuth.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,8 +12,16 @@ namespace JwtTokenAuth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //[AllowAnonymous]
     public class AuthController : ControllerBase
     {
+        private readonly LoginContext _db;
+
+        public AuthController(LoginContext db)
+        {
+            _db = db;
+        }
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel user)
         {

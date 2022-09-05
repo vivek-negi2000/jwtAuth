@@ -1,9 +1,16 @@
+using JwtTokenAuth.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Add Db Context
+
+builder.Services.AddDbContext<LoginContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("JwtConnection")));
 
 //adding jwt configuration
 
