@@ -12,7 +12,7 @@ namespace JwtTokenAuth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[AllowAnonymous]
+   // [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly LoginContext _db;
@@ -29,7 +29,11 @@ namespace JwtTokenAuth.Controllers
             {
                 return BadRequest("Invalid client request");
             }
-            if (user.UserName == "johndoe" && user.Password == "def@123")
+            var data = _db.logins.Find(user.UserName);
+            if (data == null)
+                return Unauthorized();
+            
+            if (user.UserName == data.UserName && user.Password == data.Password)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);

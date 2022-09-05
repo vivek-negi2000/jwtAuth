@@ -6,6 +6,7 @@ namespace JwtTokenAuth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class CustomerController : ControllerBase
     {
         [HttpGet, Authorize]
